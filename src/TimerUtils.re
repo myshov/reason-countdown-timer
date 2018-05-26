@@ -11,6 +11,14 @@ let toReadableString = (value) =>
     |> padWithZeros
     ;
 
+let toReadableTime = (value) =>
+  value
+    |> (x) => x /. minute
+    |> int_of_float
+    |> string_of_int
+    |> padWithZeros
+    ;
+
 let formatTime = (time) => {
   let seconds = toReadableString(Js.Date.getSeconds(time));
   let minutes = toReadableString(Js.Date.getMinutes(time));

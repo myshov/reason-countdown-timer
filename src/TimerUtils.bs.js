@@ -19,6 +19,10 @@ function toReadableString(value) {
   return padWithZeros(String(value | 0));
 }
 
+function toReadableTime(value) {
+  return padWithZeros(String(value / minute | 0));
+}
+
 function formatTime(time) {
   var value = time.getSeconds();
   var seconds = padWithZeros(String(value | 0));
@@ -42,6 +46,7 @@ exports.minute = minute;
 exports.unixTimeShift = unixTimeShift;
 exports.padWithZeros = padWithZeros;
 exports.toReadableString = toReadableString;
+exports.toReadableTime = toReadableTime;
 exports.formatTime = formatTime;
 exports.getTimerData = getTimerData;
 exports.getCountdownTimerData = getCountdownTimerData;

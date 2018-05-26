@@ -30,3 +30,17 @@
 .title {
   font-size: 28px;
 }
+
+.menu__item {
+  padding: 0 5px;
+}
+
+.menu__item_active,
+.menu__item_active:hover,
+.menu__item_active:focus,
+.menu__item_active:visited,
+.menu__item_active:active {
+  text-decoration: none;
+  color: #555;
+  cursor: default;
+}

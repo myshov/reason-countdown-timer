@@ -6,7 +6,8 @@ var ReasonReact = require("reason-react/src/ReasonReact.js");
 
 var component = ReasonReact.statelessComponent("Button");
 
-function make(disabled, text, onClick, _) {
+function make($staropt$star, text, onClick, _) {
+  var disabled = $staropt$star ? $staropt$star[0] : false;
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],

@@ -1,6 +1,6 @@
 let component = ReasonReact.statelessComponent("Button");
 
-let make = (~disabled, ~text, ~onClick, _children) => {
+let make = (~disabled=false, ~text, ~onClick, _children) => {
   ...component,
 
   render: _self => {
