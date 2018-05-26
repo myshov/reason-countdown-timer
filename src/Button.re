@@ -5,11 +5,11 @@ let make = (~disabled, ~text, ~onClick, _children) => {
 
   render: _self => {
     if (disabled == true) {
-      <button disabled>
+      <button className="btn btn-default" disabled>
         (ReasonReact.string(text))
       </button>
     } else {
-      <button onClick={onClick}>
+      <button className="btn btn-default" onClick={onClick}>
         (ReasonReact.string(text))
       </button>
     }

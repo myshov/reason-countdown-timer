@@ -7,7 +7,7 @@ var TimerUtils$ReactTemplate = require("./TimerUtils.bs.js");
 
 var component = ReasonReact.statelessComponent("Timer");
 
-function make(startTime, currentTime, _) {
+function make(startTime, currentTime, timeLimit, _) {
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],
@@ -19,8 +19,10 @@ function make(startTime, currentTime, _) {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function () {
-              var displayTime = TimerUtils$ReactTemplate.getTimerData(startTime, currentTime);
-              return React.createElement("div", undefined, displayTime);
+              var displayTime = TimerUtils$ReactTemplate.getCountdownTimerData(startTime, currentTime, timeLimit);
+              return React.createElement("div", {
+                          className: "timer"
+                        }, displayTime);
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],

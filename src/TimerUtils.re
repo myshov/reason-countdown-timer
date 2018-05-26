@@ -1,3 +1,7 @@
+let minute = 60.0 *. 1000.0;
+
+let unixTimeShift = 17.0 *. 60.0 *. 60.0 *. 1000.0;
+
 let padWithZeros = (str) => (String.length(str) == 1) ? "0" ++ str : str;
 
 let toReadableString = (value) =>
@@ -7,12 +11,21 @@ let toReadableString = (value) =>
     |> padWithZeros
     ;
 
-let getTimerData = (timeStart, timeEnd) => {
-  let unixTimeShift = 17.0 *. 60.0 *. 60.0 *. 1000.0;
-  let timeDiff = Js.Date.fromFloat(timeEnd -. timeStart +. unixTimeShift);
-  let seconds = toReadableString(Js.Date.getSeconds(timeDiff));
-  let minutes = toReadableString(Js.Date.getMinutes(timeDiff));
-  let hours = toReadableString(Js.Date.getHours(timeDiff));
+let formatTime = (time) => {
+  let seconds = toReadableString(Js.Date.getSeconds(time));
+  let minutes = toReadableString(Js.Date.getMinutes(time));
+  let hours = toReadableString(Js.Date.getHours(time));
 
   hours ++ ":" ++ minutes ++ ":" ++ seconds;
+};
+
+let getTimerData = (timeStart, timeEnd) => {
+  let time = Js.Date.fromFloat(timeEnd -. timeStart +. unixTimeShift);
+  formatTime(time);
+};
+
+let getCountdownTimerData = (timeStart, timeEnd, timeLimit) => {
+  let timeDiff = timeEnd -. timeStart;
+  let time = Js.Date.fromFloat(timeLimit -. timeDiff +. unixTimeShift);
+  formatTime(time);
 };

@@ -1,4 +1,4 @@
-# react-project
+# Simple Timer
 
 ## Run Project
 

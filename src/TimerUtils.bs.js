@@ -2,6 +2,10 @@
 'use strict';
 
 
+var minute = 60.0 * 1000.0;
+
+var unixTimeShift = 17.0 * 60.0 * 60.0 * 1000.0;
+
 function padWithZeros(str) {
   var match = str.length === 1;
   if (match) {
@@ -15,19 +19,30 @@ function toReadableString(value) {
   return padWithZeros(String(value | 0));
 }
 
-function getTimerData(timeStart, timeEnd) {
-  var unixTimeShift = 17.0 * 60.0 * 60.0 * 1000.0;
-  var timeDiff = new Date(timeEnd - timeStart + unixTimeShift);
-  var value = timeDiff.getSeconds();
+function formatTime(time) {
+  var value = time.getSeconds();
   var seconds = padWithZeros(String(value | 0));
-  var value$1 = timeDiff.getMinutes();
+  var value$1 = time.getMinutes();
   var minutes = padWithZeros(String(value$1 | 0));
-  var value$2 = timeDiff.getHours();
+  var value$2 = time.getHours();
   var hours = padWithZeros(String(value$2 | 0));
   return hours + (":" + (minutes + (":" + seconds)));
 }
 
+function getTimerData(timeStart, timeEnd) {
+  return formatTime(new Date(timeEnd - timeStart + unixTimeShift));
+}
+
+function getCountdownTimerData(timeStart, timeEnd, timeLimit) {
+  var timeDiff = timeEnd - timeStart;
+  return formatTime(new Date(timeLimit - timeDiff + unixTimeShift));
+}
+
+exports.minute = minute;
+exports.unixTimeShift = unixTimeShift;
 exports.padWithZeros = padWithZeros;
 exports.toReadableString = toReadableString;
+exports.formatTime = formatTime;
 exports.getTimerData = getTimerData;
+exports.getCountdownTimerData = getCountdownTimerData;
 /* No side effect */

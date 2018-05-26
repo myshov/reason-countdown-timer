@@ -20,10 +20,12 @@ function make(disabled, text, onClick, _) {
           /* render */(function () {
               if (disabled === true) {
                 return React.createElement("button", {
+                            className: "btn btn-default",
                             disabled: disabled
                           }, text);
               } else {
                 return React.createElement("button", {
+                            className: "btn btn-default",
                             onClick: onClick
                           }, text);
               }

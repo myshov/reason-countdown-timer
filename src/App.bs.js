@@ -7,8 +7,13 @@ var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Timer$ReactTemplate = require("./Timer.bs.js");
 var Button$ReactTemplate = require("./Button.bs.js");
+var TimerUtils$ReactTemplate = require("./TimerUtils.bs.js");
 
 var component = ReasonReact.reducerComponent("App");
+
+window.Notification.requestPermission((function () {
+        return /* () */0;
+      }));
 
 function make() {
   return /* record */[
@@ -24,17 +29,24 @@ function make() {
           /* render */(function (param) {
               var send = param[/* send */3];
               var state = param[/* state */1];
-              return React.createElement("div", undefined, ReasonReact.element(/* None */0, /* None */0, Timer$ReactTemplate.make(state[/* startTime */1], state[/* currentTime */2], /* array */[])), ReasonReact.element(/* None */0, /* None */0, Button$ReactTemplate.make(state[/* active */0], "Start", (function () {
-                                    return Curry._1(send, /* Start */1);
-                                  }), /* array */[])), ReasonReact.element(/* None */0, /* None */0, Button$ReactTemplate.make(false, "Stop", (function () {
-                                    return Curry._1(send, /* Stop */2);
-                                  }), /* array */[])));
+              return React.createElement("div", {
+                          className: "root"
+                        }, React.createElement("h1", {
+                              className: "title"
+                            }, "Simple Timer"), ReasonReact.element(/* None */0, /* None */0, Timer$ReactTemplate.make(state[/* startTime */1], state[/* currentTime */2], state[/* timeLimit */3], /* array */[])), React.createElement("div", {
+                              className: "controls"
+                            }, ReasonReact.element(/* None */0, /* None */0, Button$ReactTemplate.make(state[/* active */0], "Start", (function () {
+                                        return Curry._1(send, /* Start */1);
+                                      }), /* array */[])), ReasonReact.element(/* None */0, /* None */0, Button$ReactTemplate.make(false, "Stop", (function () {
+                                        return Curry._1(send, /* Stop */2);
+                                      }), /* array */[]))));
             }),
           /* initialState */(function () {
               return /* record */[
                       /* active */false,
                       /* startTime */0.0,
                       /* currentTime */0.0,
+                      /* timeLimit */20.0 * TimerUtils$ReactTemplate.minute,
                       /* intervalId */[/* None */0]
                     ];
             }),
@@ -42,22 +54,46 @@ function make() {
           /* reducer */(function (action, state) {
               switch (action) {
                 case 0 : 
-                    return /* Update */Block.__(0, [/* record */[
-                                /* active */state[/* active */0],
-                                /* startTime */state[/* startTime */1],
-                                /* currentTime */Date.now(),
-                                /* intervalId */state[/* intervalId */3]
-                              ]]);
+                    var currentTime = Date.now();
+                    var timeRemaining = state[/* timeLimit */3] - (currentTime - state[/* startTime */1]);
+                    if (timeRemaining > 0.0) {
+                      return /* Update */Block.__(0, [/* record */[
+                                  /* active */state[/* active */0],
+                                  /* startTime */state[/* startTime */1],
+                                  /* currentTime */currentTime,
+                                  /* timeLimit */state[/* timeLimit */3],
+                                  /* intervalId */state[/* intervalId */4]
+                                ]]);
+                    } else {
+                      return /* UpdateWithSideEffects */Block.__(2, [
+                                /* record */[
+                                  /* active */false,
+                                  /* startTime */state[/* startTime */1],
+                                  /* currentTime */state[/* currentTime */2],
+                                  /* timeLimit */state[/* timeLimit */3],
+                                  /* intervalId */state[/* intervalId */4]
+                                ],
+                                (function (self) {
+                                    var match = self[/* state */1][/* intervalId */4][0];
+                                    if (match) {
+                                      clearInterval(match[0]);
+                                    }
+                                    new Notification("Time slice is done!");
+                                    return /* () */0;
+                                  })
+                              ]);
+                    }
                 case 1 : 
                     return /* UpdateWithSideEffects */Block.__(2, [
                               /* record */[
                                 /* active */true,
                                 /* startTime */Date.now(),
                                 /* currentTime */Date.now(),
-                                /* intervalId */state[/* intervalId */3]
+                                /* timeLimit */state[/* timeLimit */3],
+                                /* intervalId */state[/* intervalId */4]
                               ],
                               (function (self) {
-                                  self[/* state */1][/* intervalId */3][0] = /* Some */[setInterval((function () {
+                                  self[/* state */1][/* intervalId */4][0] = /* Some */[setInterval((function () {
                                             return Curry._1(self[/* send */3], /* Tick */0);
                                           }), 1000)];
                                   return /* () */0;
@@ -69,10 +105,11 @@ function make() {
                                 /* active */false,
                                 /* startTime */state[/* startTime */1],
                                 /* currentTime */state[/* currentTime */2],
-                                /* intervalId */state[/* intervalId */3]
+                                /* timeLimit */state[/* timeLimit */3],
+                                /* intervalId */state[/* intervalId */4]
                               ],
                               (function (self) {
-                                  var match = self[/* state */1][/* intervalId */3][0];
+                                  var match = self[/* state */1][/* intervalId */4][0];
                                   if (match) {
                                     clearInterval(match[0]);
                                     return /* () */0;
