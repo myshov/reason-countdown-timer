@@ -16,12 +16,15 @@ function toReadableString(value) {
 }
 
 function getTimerData(timeStart, timeEnd) {
-  var timeDiff = new Date(timeEnd - timeStart);
+  var unixTimeShift = 17.0 * 60.0 * 60.0 * 1000.0;
+  var timeDiff = new Date(timeEnd - timeStart + unixTimeShift);
   var value = timeDiff.getSeconds();
   var seconds = padWithZeros(String(value | 0));
   var value$1 = timeDiff.getMinutes();
   var minutes = padWithZeros(String(value$1 | 0));
-  return minutes + (":" + seconds);
+  var value$2 = timeDiff.getHours();
+  var hours = padWithZeros(String(value$2 | 0));
+  return hours + (":" + (minutes + (":" + seconds)));
 }
 
 exports.padWithZeros = padWithZeros;

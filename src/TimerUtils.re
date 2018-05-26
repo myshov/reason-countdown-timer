@@ -8,9 +8,11 @@ let toReadableString = (value) =>
     ;
 
 let getTimerData = (timeStart, timeEnd) => {
-  let timeDiff = Js.Date.fromFloat(timeEnd -. timeStart);
+  let unixTimeShift = 17.0 *. 60.0 *. 60.0 *. 1000.0;
+  let timeDiff = Js.Date.fromFloat(timeEnd -. timeStart +. unixTimeShift);
   let seconds = toReadableString(Js.Date.getSeconds(timeDiff));
   let minutes = toReadableString(Js.Date.getMinutes(timeDiff));
+  let hours = toReadableString(Js.Date.getHours(timeDiff));
 
-  minutes ++ ":" ++ seconds;
+  hours ++ ":" ++ minutes ++ ":" ++ seconds;
 };
