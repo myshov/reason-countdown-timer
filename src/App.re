@@ -52,8 +52,8 @@ let make = _children => {
 
   render: ({state, send}) =>
     <div>
-      <Timer currentTime={state.currentTime} startTime={state.startTime}/>
-      <button onClick={_event => send(Start)}>(ReasonReact.string("Start"))</button>
-      <button onClick={_event => send(Stop)}>(ReasonReact.string("Stop"))</button>
+      <Timer currentTime={state.currentTime} startTime={state.startTime} />
+      <Button onClick={_event => send(Start)} disabled={state.active} text="Start" />
+      <Button onClick={_event => send(Stop)} disabled={false} text="Stop" />
     </div>,
 };

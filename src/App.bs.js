@@ -6,6 +6,7 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Timer$ReactTemplate = require("./Timer.bs.js");
+var Button$ReactTemplate = require("./Button.bs.js");
 
 var component = ReasonReact.reducerComponent("App");
 
@@ -23,15 +24,11 @@ function make() {
           /* render */(function (param) {
               var send = param[/* send */3];
               var state = param[/* state */1];
-              return React.createElement("div", undefined, ReasonReact.element(/* None */0, /* None */0, Timer$ReactTemplate.make(state[/* startTime */1], state[/* currentTime */2], /* array */[])), React.createElement("button", {
-                              onClick: (function () {
-                                  return Curry._1(send, /* Start */1);
-                                })
-                            }, "Start"), React.createElement("button", {
-                              onClick: (function () {
-                                  return Curry._1(send, /* Stop */2);
-                                })
-                            }, "Stop"));
+              return React.createElement("div", undefined, ReasonReact.element(/* None */0, /* None */0, Timer$ReactTemplate.make(state[/* startTime */1], state[/* currentTime */2], /* array */[])), ReasonReact.element(/* None */0, /* None */0, Button$ReactTemplate.make(state[/* active */0], "Start", (function () {
+                                    return Curry._1(send, /* Start */1);
+                                  }), /* array */[])), ReasonReact.element(/* None */0, /* None */0, Button$ReactTemplate.make(false, "Stop", (function () {
+                                    return Curry._1(send, /* Stop */2);
+                                  }), /* array */[])));
             }),
           /* initialState */(function () {
               return /* record */[
