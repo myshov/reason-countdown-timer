@@ -1,11 +1,16 @@
 type action =
+  | Tick
   | Start
   | Stop
   ;
 
 type state = {
   active: bool,
+  startTime: float,
+  currentTime: float,
+  intervalId: ref(option(Js.Global.intervalId)),
 };
+
 
 let component = ReasonReact.reducerComponent("App");
 
@@ -15,17 +20,39 @@ let make = _children => {
 
   initialState: () => {
     active: false,
+    startTime: 0.0,
+    currentTime: 0.0,
+    intervalId: ref(None),
   },
 
-  reducer: (action, _state) =>
+  reducer: (action, state) =>
     switch (action) {
-    | Start => ReasonReact.Update({active: true});
-    | Stop => ReasonReact.Update({active: false});
+    | Tick => ReasonReact.Update({...state, currentTime: Js.Date.now()});
+    | Start => ReasonReact.UpdateWithSideEffects(
+        {
+          ...state,
+          active: true,
+          startTime: Js.Date.now(),
+          currentTime: Js.Date.now(),
+        },
+        (self => {
+          self.state.intervalId := Some(Js.Global.setInterval(() => self.send(Tick), 1000));
+        }),
+      );
+    | Stop => ReasonReact.UpdateWithSideEffects(
+        {...state, active: false},
+        (self => {
+          switch(self.state.intervalId^) {
+          | Some(id) => Js.Global.clearInterval(id);
+          | None => ();
+          }
+        }),
+      );
     },
 
   render: ({state, send}) =>
     <div>
-      <Timer active={state.active}/>
+      <Timer currentTime={state.currentTime} startTime={state.startTime}/>
       <button onClick={_event => send(Start)}>(ReasonReact.string("Start"))</button>
       <button onClick={_event => send(Stop)}>(ReasonReact.string("Stop"))</button>
     </div>,

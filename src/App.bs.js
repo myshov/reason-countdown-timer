@@ -22,25 +22,69 @@ function make() {
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function (param) {
               var send = param[/* send */3];
-              return React.createElement("div", undefined, ReasonReact.element(/* None */0, /* None */0, Timer$ReactTemplate.make(param[/* state */1][/* active */0], /* array */[])), React.createElement("button", {
+              var state = param[/* state */1];
+              return React.createElement("div", undefined, ReasonReact.element(/* None */0, /* None */0, Timer$ReactTemplate.make(state[/* startTime */1], state[/* currentTime */2], /* array */[])), React.createElement("button", {
                               onClick: (function () {
-                                  return Curry._1(send, /* Start */0);
+                                  return Curry._1(send, /* Start */1);
                                 })
                             }, "Start"), React.createElement("button", {
                               onClick: (function () {
-                                  return Curry._1(send, /* Stop */1);
+                                  return Curry._1(send, /* Stop */2);
                                 })
                             }, "Stop"));
             }),
           /* initialState */(function () {
-              return /* record */[/* active */false];
+              return /* record */[
+                      /* active */false,
+                      /* startTime */0.0,
+                      /* currentTime */0.0,
+                      /* intervalId */[/* None */0]
+                    ];
             }),
           /* retainedProps */component[/* retainedProps */11],
-          /* reducer */(function (action, _) {
-              if (action) {
-                return /* Update */Block.__(0, [/* record */[/* active */false]]);
-              } else {
-                return /* Update */Block.__(0, [/* record */[/* active */true]]);
+          /* reducer */(function (action, state) {
+              switch (action) {
+                case 0 : 
+                    return /* Update */Block.__(0, [/* record */[
+                                /* active */state[/* active */0],
+                                /* startTime */state[/* startTime */1],
+                                /* currentTime */Date.now(),
+                                /* intervalId */state[/* intervalId */3]
+                              ]]);
+                case 1 : 
+                    return /* UpdateWithSideEffects */Block.__(2, [
+                              /* record */[
+                                /* active */true,
+                                /* startTime */Date.now(),
+                                /* currentTime */Date.now(),
+                                /* intervalId */state[/* intervalId */3]
+                              ],
+                              (function (self) {
+                                  self[/* state */1][/* intervalId */3][0] = /* Some */[setInterval((function () {
+                                            return Curry._1(self[/* send */3], /* Tick */0);
+                                          }), 1000)];
+                                  return /* () */0;
+                                })
+                            ]);
+                case 2 : 
+                    return /* UpdateWithSideEffects */Block.__(2, [
+                              /* record */[
+                                /* active */false,
+                                /* startTime */state[/* startTime */1],
+                                /* currentTime */state[/* currentTime */2],
+                                /* intervalId */state[/* intervalId */3]
+                              ],
+                              (function (self) {
+                                  var match = self[/* state */1][/* intervalId */3][0];
+                                  if (match) {
+                                    clearInterval(match[0]);
+                                    return /* () */0;
+                                  } else {
+                                    return /* () */0;
+                                  }
+                                })
+                            ]);
+                
               }
             }),
           /* subscriptions */component[/* subscriptions */13],
