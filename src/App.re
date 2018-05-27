@@ -22,7 +22,9 @@ type state = {
 
 let component = ReasonReact.reducerComponent("App");
 
-Notifications.requestPermission((_) => ());
+if (Notifications.isEnabled) {
+  Notifications.requestPermission((_) => ());
+};
 
 let make = _children => {
   ...component,

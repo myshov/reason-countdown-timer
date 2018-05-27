@@ -7,5 +7,10 @@ function set_title(str) {
   return /* () */0;
 }
 
+var isEnabled = (
+  (window.Notification) ? true : false
+);
+
 exports.set_title = set_title;
-/* No side effect */
+exports.isEnabled = isEnabled;
+/* isEnabled Not a pure module */

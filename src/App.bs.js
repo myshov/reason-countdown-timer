@@ -9,12 +9,15 @@ var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Timer$ReactTemplate = require("./Timer.bs.js");
 var Button$ReactTemplate = require("./Button.bs.js");
 var TimerUtils$ReactTemplate = require("./TimerUtils.bs.js");
+var Notifications$ReactTemplate = require("./Notifications.bs.js");
 
 var component = ReasonReact.reducerComponent("App");
 
-window.Notification.requestPermission((function () {
-        return /* () */0;
-      }));
+if (Notifications$ReactTemplate.isEnabled) {
+  window.Notification.requestPermission((function () {
+          return /* () */0;
+        }));
+}
 
 function make() {
   return /* record */[

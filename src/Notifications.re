@@ -14,3 +14,7 @@ external requestPermission : permissionRequest => unit = "";
 [@bs.val] external document : {. [@bs.set] "title": string} = "";
 
 let set_title : string => unit = str => document##title #= str;
+
+let isEnabled = [%raw {|
+  (window.Notification) ? true : false
+|}];
