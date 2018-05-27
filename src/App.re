@@ -53,7 +53,9 @@ let make = _children => {
               | Some(id) => Js.Global.clearInterval(id);
               | None => ();
               };
-              Notifications.sendNotification("Time slice is done!");
+              if (Notifications.isEnabled) {
+                Notifications.sendNotification("Time slice is done!");
+              };
             }),
           );
         }

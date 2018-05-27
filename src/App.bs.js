@@ -126,8 +126,12 @@ function make() {
                                       if (match) {
                                         clearInterval(match[0]);
                                       }
-                                      new Notification("Time slice is done!");
-                                      return /* () */0;
+                                      if (Notifications$ReactTemplate.isEnabled) {
+                                        new Notification("Time slice is done!");
+                                        return /* () */0;
+                                      } else {
+                                        return 0;
+                                      }
                                     })
                                 ]);
                       }
